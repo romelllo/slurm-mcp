@@ -1,0 +1,18 @@
+# Only pyproject.toml, uv.lock, README.md and src/ are needed in the image.
+.venv/
+__pycache__/
+*.pyc
+.ruff_cache/
+.pytest_cache/
+.ty_cache/
+dist/
+
+# Credentials and site config are provided at runtime, never baked in
+.env
+cluster/
+cluster.example/
+
+tests/
+examples/
+.git/
+.DS_Store

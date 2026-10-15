@@ -1,0 +1,84 @@
+# ── slurm-mcp cluster profile ──────────────────────────────────────────────────
+# Copy this directory to ./cluster/ and edit it:   cp -r cluster.example cluster
+# ./cluster/ is gitignored so your site details stay private.
+#
+# Placeholders: {user} → HPC_USER from .env
+# Globs (*, ?, [..]) are allowed inside a path component, e.g. "/scratch/ws/{user}-*".
+
+[cluster]
+name = "Example University HPC"
+# One short paragraph the assistant always sees. Put the most important site rules here.
+description = """
+Login node is for editing and submitting only — all computation goes through SLURM.
+Home directories have a 50 GB quota; keep data and job output in /scratch/{user}.
+"""
+# Markdown docs directory, relative to this file. Every *.md in it is served by hpc_read_doc.
+docs_dir = "docs"
+# Run every remote command through `bash -lc` so /etc/profile and ~/.bash_profile are
+# sourced (needed if sbatch/squeue or `module` only appear on PATH in login shells).
+login_shell = false
+
+[paths]
+# Where the assistant may create and edit files (job scripts, notebooks, small configs).
+write = [
+    "/scratch/{user}/",
+]
+# Additional read-only locations (shared datasets, reference genomes, …).
+read = [
+    "/home/{user}/",
+    "/shared/data/",
+]
+# Always blocked, even if inside a read/write path. .ssh, .gnupg, .netrc, .aws, .kube and
+# .docker directories are blocked everywhere automatically.
+forbidden = [
+    "/etc/",
+]
+
+[slurm]
+default_partition = "cpu"
+# Allowed --qos values. Leave empty to skip QoS validation.
+qos = []
+# Default --account (leave empty if your cluster doesn't use accounts).
+account = ""
+# Lines inserted at the top of every generated job script, before the user's commands.
+preamble = [
+    # "module purge",
+    # "module load python/3.11",
+    # 'source "$HOME/miniconda3/etc/profile.d/conda.sh" && conda activate myenv',
+]
+
+# Optional per-user limits that apply when no --qos is given. Exceeding them produces a
+# warning (not an error) suggesting a QoS.
+# [slurm.limits_without_qos]
+# max_cpus = 32
+# max_mem_gb = 256
+# max_gpus = 2
+
+# One block per partition. Every limit is optional — omit it to skip validation.
+# max_gpus = 0 marks a CPU-only partition.
+[[slurm.partitions]]
+name = "cpu"
+description = "General CPU nodes"
+max_time = "7-00:00:00"
+max_cpus = 64
+max_mem_gb = 500
+max_gpus = 0
+
+[[slurm.partitions]]
+name = "gpu"
+description = "GPU nodes"
+max_time = "2-00:00:00"
+max_cpus = 32
+max_mem_gb = 250
+max_gpus = 4
+
+[workspaces]
+# Set to true if the cluster runs hpc-workspace (ws_allocate, ws_list, ws_extend, ws_release).
+enabled = false
+max_days = 30
+
+[rmd]
+# Lines run in R Markdown render jobs before Rscript.
+setup = [
+    # "module load R/4.4.0",
+]

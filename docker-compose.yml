@@ -1,0 +1,35 @@
+# slurm-mcp — run the MCP server in a container.
+#
+#   docker compose build
+#   docker compose run --rm -T slurm-mcp     # this is what Claude Code runs (see README)
+#
+# Reads .env from this directory. Host paths for the key and known_hosts come from
+# HPC_KEY_PATH / HPC_KNOWN_HOSTS in .env; inside the container they are remapped to
+# /run/secrets/* by the `environment:` block below.
+
+services:
+  slurm-mcp:
+    build: .
+    image: slurm-mcp:latest
+    env_file:
+      - .env
+    environment:
+      HPC_KEY_PATH: /run/secrets/hpc_key
+      HPC_KNOWN_HOSTS: /run/secrets/known_hosts
+      HPC_CLUSTER_CONFIG: /app/cluster/cluster.toml
+    volumes:
+      - type: bind
+        source: ${HPC_KEY_PATH:-~/.ssh/id_ed25519}
+        target: /run/secrets/hpc_key
+        read_only: true
+      - type: bind
+        source: ${HPC_KNOWN_HOSTS:-~/.ssh/known_hosts}
+        target: /run/secrets/known_hosts
+        read_only: true
+      - type: bind
+        source: ./cluster
+        target: /app/cluster
+        read_only: true
+    # MCP talks over stdin/stdout.
+    stdin_open: true
+    tty: false

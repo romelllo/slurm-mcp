@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__hpc__hpc_list_docs",
+      "mcp__hpc__hpc_read_doc",
+      "mcp__hpc__hpc_search_docs",
+      "mcp__hpc__hpc_list_directory",
+      "mcp__hpc__hpc_get_file_info",
+      "mcp__hpc__hpc_read_file",
+      "mcp__hpc__hpc_head_file",
+      "mcp__hpc__hpc_tail_file",
+      "mcp__hpc__hpc_search_in_file",
+      "mcp__hpc__hpc_find_files",
+      "mcp__hpc__hpc_storage_usage",
+      "mcp__hpc__hpc_resolve_project",
+      "mcp__hpc__hpc_queue",
+      "mcp__hpc__hpc_cluster_info",
+      "mcp__hpc__hpc_job_details",
+      "mcp__hpc__hpc_job_efficiency",
+      "mcp__hpc__hpc_job_history",
+      "mcp__hpc__hpc_list_reservations",
+      "mcp__hpc__hpc_generate_sbatch",
+      "mcp__hpc__hpc_generate_rmd",
+      "mcp__hpc__hpc_generate_rmd_render_job",
+      "mcp__hpc__hpc_list_workspaces",
+      "mcp__hpc__hpc_workspace_info"
+    ]
+  }
+}

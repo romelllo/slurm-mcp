@@ -1,0 +1,25 @@
+# Credentials — never commit
+.env
+
+# Your cluster profile (copy of cluster.example/) — site-specific, keep private
+cluster/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+dist/
+*.egg-info/
+
+# Build / cache
+.ruff_cache/
+.pytest_cache/
+.ty_cache/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
